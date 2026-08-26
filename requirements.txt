@@ -1,0 +1,9 @@
+pandas>=2.0
+numpy>=1.24
+duckdb>=1.0
+matplotlib>=3.7
+pytest>=7.0
+
+# Optional, only needed if loading into BigQuery instead of the default
+# local DuckDB warehouse (see src/load.py):
+# google-cloud-bigquery>=3.0
