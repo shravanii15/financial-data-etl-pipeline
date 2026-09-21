@@ -1,5 +1,7 @@
 # Financial Data ETL & Governance Pipeline
 
+![Pipeline run report dashboard](dashboard_preview.png)
+
 A small end-to-end data pipeline: pull real public financial data, clean it
 into a proper schema, validate it, flag anomalies, load it into a warehouse,
 and document exactly where every field came from and what happened to it
