@@ -95,7 +95,7 @@ def chart_vix_svg() -> str:
     markers = []
     for _, row in spikes.iterrows():
         cx, cy = xs(row["date"]), ys(row["close"])
-        tip = (f"{row['date'].date()} — VIX {row['close']:.1f} "
+        tip = (f"{row['date'].date()}: VIX {row['close']:.1f} "
                f"({row['pct_change']*100:+.1f}% day change, z={row['change_zscore']:.1f})")
         markers.append(
             f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="4.5" class="mark-critical" '
@@ -218,8 +218,8 @@ def build_html() -> str:
         summary = f"This run passed all {n_total} data quality checks and flagged {n_anom} statistical anomalies worth a second look."
     else:
         summary = (
-            f"This run found {n_failed} of {n_total} data quality checks failing — real issues in the "
-            f"source data, not test artifacts (see below) — and flagged {n_anom} statistical anomalies "
+            f"This run found {n_failed} of {n_total} data quality checks failing (real issues in the "
+            f"source data, not test artifacts, see below) and flagged {n_anom} statistical anomalies "
             f"across company valuations and market volatility."
         )
 
@@ -256,7 +256,7 @@ def build_html() -> str:
 
     html = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<title>Financial Data Pipeline — Run Report</title>
+<title>Financial Data Pipeline: Run Report</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 {PALETTE_CSS}
@@ -331,7 +331,7 @@ footer {{ margin-top: 56px; font-size: 12px; color: var(--text-muted); border-to
 </style></head>
 <body>
 <header class="hero"><div class="wrap">
-  <h1>Financial Data Pipeline — Run Report</h1>
+  <h1>Financial Data Pipeline: Run Report</h1>
   <div class="meta">Run at {report['run_at_utc']}</div>
   <p class="summary">{summary}</p>
 
@@ -354,7 +354,7 @@ footer {{ margin-top: 56px; font-size: 12px; color: var(--text-muted); border-to
 <div class="wrap">
   <section>
     <h2>Data quality checks</h2>
-    <p class="section-note">Every row is a rule the pipeline enforces before data reaches the warehouse. Failures point at real issues in the source data — see docs/DATA_CATALOG.md for what each one means.</p>
+    <p class="section-note">Every row is a rule the pipeline enforces before data reaches the warehouse. Failures point at real issues in the source data, see docs/DATA_CATALOG.md for what each one means.</p>
     <div class="card">
       <table>
         <tr><th>Table</th><th>Check</th><th>Column</th><th>Result</th><th>Detail</th></tr>
@@ -364,8 +364,8 @@ footer {{ margin-top: 56px; font-size: 12px; color: var(--text-muted); border-to
   </section>
 
   <section>
-    <h2>Market volatility (VIX) — anomaly detection</h2>
-    <p class="section-note">Monthly average VIX level, 1990–present. Hover a marker for the exact day and how far it deviated from the trailing pattern.</p>
+    <h2>Market volatility (VIX): anomaly detection</h2>
+    <p class="section-note">Monthly average VIX level, 1990-present. Hover a marker for the exact day and how far it deviated from the trailing pattern.</p>
     <div class="card">
       {vix_svg}
       <div class="legend"><span><span class="swatch" style="background:var(--series-blue)"></span>Monthly average</span><span><span class="swatch" style="background:var(--status-critical); border-radius:50%"></span>Flagged spike day</span></div>
